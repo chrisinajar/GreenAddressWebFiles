@@ -11,8 +11,8 @@ sys.setdefaultencoding('utf-8')  # make jinja decode utf8 strings automatically
 logging.basicConfig(level=logging.DEBUG, stream=sys.stderr)
 log = logging.getLogger('main')
 
-
-IGNORED_DIRS = [".git", "build", "docs"]
+ROOT_DIR = 'locale'
+IGNORED_DIRS = [".git", "docs"]
 
 
 GETTEXT_LANGUAGES = (
@@ -66,7 +66,7 @@ def start():
     filenames = find_all_files(".", [".py"], IGNORED_DIRS)
     filenames_html = []
     filenames_html += find_all_files('templates', [".html"], IGNORED_DIRS)
-    filenames_js = find_all_files(".", [".js"], IGNORED_DIRS)
+    filenames_js = find_all_files("dist/static/js/", [".js"], IGNORED_DIRS)
 
     # Run xgettext.
     server_msgs = cleanup_msgs(run_gettext(filenames, for_js=False), True)
@@ -75,9 +75,9 @@ def start():
         server_msgs += "\n" + msgs
     js_msgs = cleanup_msgs(run_gettext(filenames_js, for_js=True), True)
 
-    with open(os.path.join("locale", "django.pot"), "w") as f:
+    with open(os.path.join(ROOT_DIR, "django.pot"), "w") as f:
         f.write(server_msgs)
-    with open(os.path.join("locale", "djangojs.pot"), "w") as f:
+    with open(os.path.join(ROOT_DIR, "djangojs.pot"), "w") as f:
         f.write(js_msgs)
 
     make_locale_dirs()
@@ -177,7 +177,7 @@ def run_jinja_extract(filename):
         data = f.read()
 
     tr = gettext.translation(
-                'django', 'locale', ['en'], fallback=True
+                'django', ROOT_DIR, ['en'], fallback=True
             )
 
     trxs = jinja_env.extract_translations(data)
@@ -200,16 +200,16 @@ def run_jinja_extract(filename):
 def make_locale_dirs():
     for locale in GETTEXT_LANGUAGES_LOCALE:
         try:
-            os.mkdir(os.path.join("locale", locale))
-            os.mkdir(os.path.join("locale", locale, "LC_MESSAGES"))
+            os.mkdir(os.path.join(ROOT_DIR, locale))
+            os.mkdir(os.path.join(ROOT_DIR, locale, "LC_MESSAGES"))
         except OSError:
             pass
 
 
 def write_po_files(domain):
     for locale in GETTEXT_LANGUAGES_LOCALE:
-        popath = os.path.join("locale", locale, "LC_MESSAGES", domain + ".po")
-        potpath = os.path.join("locale", domain + ".pot")
+        popath = os.path.join(ROOT_DIR, locale, "LC_MESSAGES", domain + ".po")
+        potpath = os.path.join(ROOT_DIR, domain + ".pot")
 
         args = ['msguniq', '--to-code=utf-8', '-o', potpath, potpath]
         subprocess.check_output(args)
@@ -230,5 +230,5 @@ def write_po_files(domain):
         with open(popath, "w") as f:
             f.write(msgs)
 
-    potpath = os.path.join("locale", domain + ".pot")
+    potpath = os.path.join(ROOT_DIR, domain + ".pot")
     os.unlink(potpath)

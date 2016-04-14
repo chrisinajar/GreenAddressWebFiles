@@ -16,6 +16,8 @@ TEMPLATES = {
         'wallet/partials/signuplogin/*.html',
 }
 
+ROOT_DIR = 'locale'
+
 try:
     # Used internally by GreenAddress for website deployment.
     # (Not useful for Cordova and Chrome apps, hence the optional import.)
@@ -52,7 +54,7 @@ class TemplatesRenderer(object):
         self.trs = {}
         for lang in gettext_finder.GETTEXT_LANGUAGES:
             self.trs[lang] = gettext.translation(
-                'django', 'locale', [lang], fallback=True
+                'django', ROOT_DIR, [lang], fallback=True
             )
             if not isinstance(self.trs[lang], gettext.GNUTranslations):
                 print "Translation file for %s not found." % lang
@@ -96,7 +98,7 @@ class TemplatesRenderer(object):
             f.write(out.encode('utf-8'))
 
     def generate_js_catalog(self, lang):
-        tr = gettext.translation('djangojs', 'locale', [lang], fallback=True)
+        tr = gettext.translation('djangojs', ROOT_DIR, [lang], fallback=True)
         s = """
 function get_catalog(globals) {
 globals.i18n_catalog = {\n"""
@@ -129,8 +131,8 @@ globals.i18n_catalog = {\n"""
 
 def compile_domain(domain):
     for locale in gettext_finder.GETTEXT_LANGUAGES:
-        popath = os.path.join('locale', locale, "LC_MESSAGES", domain + ".po")
-        mopath = os.path.join('locale', locale, "LC_MESSAGES", domain + ".mo")
+        popath = os.path.join(ROOT_DIR, locale, "LC_MESSAGES", domain + ".po")
+        mopath = os.path.join(ROOT_DIR, locale, "LC_MESSAGES", domain + ".mo")
         args = [
             'msgfmt',
             '--check-format',
