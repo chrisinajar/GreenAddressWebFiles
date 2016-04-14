@@ -6,7 +6,7 @@ gulp.task('clean-css', function () {
     .pipe(clean());
 });
 
-gulp.task('css', ['clean-css'], function () {
+gulp.task('build-css', ['clean-css'], function () {
   return gulp.src(['static/css/**/*'], {base:'.'})
     .pipe(gulp.dest('dist/static/css'));
 });

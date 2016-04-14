@@ -4,9 +4,10 @@ require('./assets');
 require('./browserify');
 require('./templates');
 require('./watch');
+require('./css');
 
 // tasks for file types
-gulp.task('css', []);
+gulp.task('css', ['build-css']);
 gulp.task('js', ['browserify']);
 
 // build, watch, default
