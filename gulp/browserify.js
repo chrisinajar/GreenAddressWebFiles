@@ -5,7 +5,7 @@ var clean = require('gulp-clean');
 var rename = require('gulp-rename');
 
 gulp.task('clean-js', function () {
-  return gulp.src(['build/static/js/'], {read: false})
+  return gulp.src(['dist/static/js/'], {read: false})
     .pipe(clean());
 });
 
@@ -15,16 +15,16 @@ gulp.task('browserify', ['clean-js'], function () {
     .pipe(browserify({
       insertGlobals: true
     }))
-    .pipe(gulp.dest('build/static/js/'));
+    .pipe(gulp.dest('dist/static/js/'));
 
   var external = gulp.src('static/external/**/*')
-    .pipe(gulp.dest('build/static/js/'));
+    .pipe(gulp.dest('dist/static/js/'));
 
   var mnonic = gulp.src(['static/js/greenwallet/mnemonics/**/*'])
-    .pipe(gulp.dest('build/static/js/greenwallet/mnemonics/'));
+    .pipe(gulp.dest('dist/static/js/greenwallet/mnemonics/'));
     
   var signupWorker = gulp.src(['static/js/greenwallet/signup/**/*'])
-    .pipe(gulp.dest('build/static/js/greenwallet/signup/'));
+    .pipe(gulp.dest('dist/static/js/greenwallet/signup/'));
 
   return merge(browserified, external, mnonic, signupWorker);
 });

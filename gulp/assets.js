@@ -3,9 +3,9 @@ var clean = require('gulp-clean');
 
 gulp.task('clean-assets', function () {
   return gulp.src([
-      'build/static/fonts/',
-      'build/static/img/',
-      'build/static/sound/'
+      'dist/static/fonts/',
+      'dist/static/img/',
+      'dist/static/sound/'
     ], {read: false})
     .pipe(clean());
 });
@@ -16,5 +16,5 @@ gulp.task('assets', ['clean-assets'], function () {
       'static/img/**/*',
       'static/sound/**/*'
     ], {base: '.'})
-    .pipe(gulp.dest('build/'));
+    .pipe(gulp.dest('dist/'));
 });
