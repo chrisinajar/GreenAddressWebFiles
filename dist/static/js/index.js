@@ -45522,7 +45522,7 @@ var app = module.exports = require('./greenwallet');
 
 Window.app = app;
 
-}).call(this,require("rH1JPG"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_37b6b63c.js","/")
+}).call(this,require("rH1JPG"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_8e60909d.js","/")
 },{"./greenwallet":30,"./lib":58,"buffer":14,"global/window":17,"rH1JPG":20}],23:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 // replace this with an app object of some sort?
