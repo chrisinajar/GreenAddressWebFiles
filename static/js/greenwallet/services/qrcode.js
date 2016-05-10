@@ -1,7 +1,7 @@
 var window = require('global/window');
+var document = require('global/document');
 var angular = require('angular');
 
-var cordova = window.cordova;
 var gettext = window.gettext;
 var qrcode = window.qrcode;
 var Image = window.Image;
@@ -12,7 +12,7 @@ module.exports = factory;
 factory.dependencies = ['$q', 'cordovaReady', '$timeout', 'notices'];
 
 function factory ($q, cordovaReady, $timeout, notices) {
-  var n = navigator;
+  var n = window.navigator;
   var v;
   var webkit = false;
   var moz = false;
@@ -31,10 +31,10 @@ function factory ($q, cordovaReady, $timeout, notices) {
     scan: function ($scope, $event, suffix) {
       var that = this;
       var deferred = $q.defer();
-      if (cordova) {
+      if (window.cordova) {
         $event.preventDefault();
         cordovaReady(function () {
-          cordova.plugins.barcodeScanner.scan(
+          window.cordova.plugins.barcodeScanner.scan(
             function (result) {
               console.log('We got a barcode\n' +
                 'Result: ' + result.text + '\n' +
@@ -176,6 +176,9 @@ function factory ($q, cordovaReady, $timeout, notices) {
       return deferred.promise;
 
       function captureToCanvas () {
+        // if (!$scope.scanning_qr_video) {
+        //   return;
+        // }
         try {
           gCtx.drawImage(v, 0, 0);
           try {
